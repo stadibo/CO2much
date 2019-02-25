@@ -1,15 +1,23 @@
 {
-  "name": "back-end",
+  "name": "co2much",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "watch": "cross-env NODE_ENV=development nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stadibo/CO2much.git"
   },
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stadibo/CO2much/issues"
+  },
+  "homepage": "https://github.com/stadibo/CO2much#readme",
   "devDependencies": {
     "cross-env": "^5.2.0",
     "dotenv": "^6.2.0",
