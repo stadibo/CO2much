@@ -2,11 +2,13 @@ const fs = require('fs')
 const util = require('util')
 const parser = require('xml2json')
 const readFile = util.promisify(fs.readFile)
-const writeFile = util.promisify(fs.writeFile)
 
 const parseEmmissionsData = async (path) => {
+  // Read data and convert to json
   let rawData = await readFile(path, 'utf8')
   let json = JSON.parse(parser.toJson(rawData))
+
+  // Transform data into more easily readable format
   let object = json.Root.data.record.map(obj => {
     let entry = obj.field
     let key = entry[0].key
@@ -20,6 +22,8 @@ const parseEmmissionsData = async (path) => {
       co2EmissionsKT: co2Emissions ? co2Emissions : ""
     }
   }).reduce((entries, value) => {
+    // Adds as new entry and initializes co2EmissionsData array
+    // or if the entry exists adds the co2EmissionsData to array
     const existingEntry = entries.find(e => e.key === value.key)
     if (!existingEntry) {
       const countryData = {
@@ -46,8 +50,11 @@ const parseEmmissionsData = async (path) => {
 }
 
 const parsePopulationData = async (path) => {
+  // Read data and convert to json
   let rawData = await readFile(path, 'utf8')
   let json = JSON.parse(parser.toJson(rawData))
+
+  // Transform data into more easily readable format
   let object = json.Root.data.record.map(obj => {
     let entry = obj.field
     let key = entry[0].key
@@ -61,6 +68,8 @@ const parsePopulationData = async (path) => {
       populationSize: populationSize ? populationSize : ""
     }
   }).reduce((entries, value) => {
+    // Adds as new entry and initializes co2EmissionsData array
+    // or if the entry exists adds the co2EmissionsData to array
     const existingEntry = entries.find(e => e.key === value.key)
     if (!existingEntry) {
       const countryData = {
