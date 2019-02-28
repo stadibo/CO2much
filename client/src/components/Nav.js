@@ -20,9 +20,9 @@ const Footer = ({ state, setState }) => {
           centered
           variant="fullWidth"
         >
-          <Tab label="Search" component={Link} to="/search" />
-          <Tab label="All countries" component={Link} to="/all" />
-          <Tab label="Comparison" component={Link} to="/comp" />
+          <Tab label="Search" value="/search" component={Link} to="/search" />
+          <Tab label="All countries" value="all" component={Link} to="/all" />
+          <Tab label="Comparison" value="comp" component={Link} to="/comp" />
         </Tabs>
       </AppBar>
     </div>

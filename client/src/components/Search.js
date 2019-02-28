@@ -7,10 +7,10 @@ import { Grid } from '@material-ui/core';
 const Search = ({ state, setState, sendRequest }) => {
   const handleChange = (e) => {
     const input = e.target.value
+    const inputLength = input.length
     const newSuggestions = state.keys.filter(val => {
-      return val.countryOrArea.toLowerCase().includes(input.toLowerCase())
+      return val.countryOrArea.toLowerCase().slice(0, inputLength).includes((input.toLowerCase()))
     })
-
     const suggestionString = newSuggestions.reduce((str, val, index) => {
       if (index < 7) {
         str = str.concat((str === "" ? val.countryOrArea : `, ${val.countryOrArea}`))
@@ -43,7 +43,7 @@ const Search = ({ state, setState, sendRequest }) => {
             <TextField
               autoFocus
               name='input'
-              label='Search a country'
+              label='Enter country name (submit to get 1st suggestion)'
               type='text'
               fullWidth
               value={state.input}

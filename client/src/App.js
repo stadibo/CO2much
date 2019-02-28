@@ -5,7 +5,6 @@ import { getCountryData, getKeys } from './services/emissionsService'
 import { createBaseEmissionsSeries } from './utils/timeseries'
 import EmissionsChart from './components/EmmissionsChart'
 import Header from './components/Header'
-import Footer from './components/Footer'
 import Nav from './components/Nav'
 import Search from './components/Search'
 import Grid from '@material-ui/core/Grid'
@@ -28,7 +27,7 @@ const App = () => {
   })
 
   const [navState, setNavState] = useState({
-    value: 0
+    value: "/search"
   })
 
   // const [windowState, setWindowState] = useState({
@@ -68,7 +67,7 @@ const App = () => {
             </Grid>
           )} />
 
-          <Route path="/" render={() => (
+          <Route path="/search" render={() => (
             <Grid item xs={12}>
               <SearchAndGraph
                 searchBoxState={searchBoxState}
