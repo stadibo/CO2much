@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import { getCountryData, getKeys } from './services/emissionsService'
 import { createBaseEmissionsSeries } from './utils/timeseries'
 import EmissionsChart from './components/EmmissionsChart'
@@ -42,21 +43,59 @@ const App = () => {
 
   return (
     <div className="App">
-      <Grid container>
-        <Grid item md={12} justify-spacing >
-          <Header />
-        </Grid>
-        <Grid item xs={12}>
-          <Search state={searchBoxState} setState={setSearchBoxState} sendRequest={fetchCountryData} />
-        </Grid>
-        <Grid item xs={12}>
-          <EmissionsChart state={chartState} setState={setChartState} />
-        </Grid>
-        <Grid item xs={12}>
-          <Footer state={navState} setState={setNavState} />
-        </Grid>
-      </Grid >
+      <Router>
+        <Grid container>
+          <Route exact path="/" render={() => <Redirect to="/search" />} />
+
+          <Route path="/" render={() => (
+            <Grid item md={12}>
+              <Header />
+            </Grid>
+          )} />
+
+          <Route path="/" render={() => (
+            <Grid item md={12}>
+              <SearchAndGraph
+                searchBoxState={searchBoxState}
+                setSearchBoxState={setSearchBoxState}
+                sendRequest={fetchCountryData}
+                chartState={chartState}
+                setChartState={setChartState}
+              />
+            </Grid>
+          )} />
+
+          <Route path="/" render={({ history }) => (
+            <Grid item xs={12}>
+              <Footer state={navState} setState={setNavState} />
+            </Grid>
+          )} />
+        </Grid >
+      </Router>
     </div >
+  )
+}
+
+
+
+const SearchAndGraph = (props) => {
+  const {
+    searchBoxState,
+    setSearchBoxState,
+    sendRequest,
+    chartState,
+    setChartState
+  } = props
+
+  return (
+    <Grid container>
+      <Grid item xs={12}>
+        <Search state={searchBoxState} setState={setSearchBoxState} sendRequest={sendRequest} />
+      </Grid>
+      <Grid item xs={12}>
+        <EmissionsChart state={chartState} setState={setChartState} />
+      </Grid>
+    </Grid >
   )
 }
 
