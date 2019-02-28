@@ -58,7 +58,7 @@ const App = () => {
       <ResizeListener />
       <Router>
         <Grid container spacing={24}>
-          <Route exact path="/" render={() => <Redirect to="/search" />} />
+          <Route path="/" render={() => <Redirect to="/search" />} />
 
           <Route path="/" render={() => (
             <Grid item xs={12}>
