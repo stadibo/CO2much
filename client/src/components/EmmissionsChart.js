@@ -73,7 +73,7 @@ const EmissionsChart = ({ state, setState, sizes }) => {
                         label="CO2 emissions (kt)"
                         min={0}
                         max={state.series.max("CO2_emissions")}
-                        width="50"
+                        width="55"
                       />
                       <Charts>
                         <BarChart

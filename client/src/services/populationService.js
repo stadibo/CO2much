@@ -7,14 +7,14 @@ const getAll = async () => {
   return response.data
 }
 
-const getKeys = async () => {
+const getPopulationKeys = async () => {
   const response = await axios.get(`${url}/countryOrAreaKeys`)
   return response.data
 }
 
-const getCountryData = async (key) => {
+const getCountryPopulationData = async (key) => {
   const response = await axios.get(`${url}/${key}`)
   return response.data
 }
 
-export { getAll, getKeys, getCountryData }
+export { getAll, getPopulationKeys, getCountryPopulationData }

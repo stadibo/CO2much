@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { getEmissionsData } = require('../utils/dataRead')
+const { getEmissionsData, createPerCapitaData } = require('../utils/dataRead')
 
 router.get('/', async (req, res) => {
   const data = await getEmissionsData()
@@ -28,6 +28,23 @@ router.get('/:key', async (req, res) => {
     res.json(entry)
   } else {
     res.status(404).json({ error: 'No country or area matching key' })
+  }
+})
+
+router.get('/perCapita/:key', async (req, res) => {
+  try {
+    const key = req.params.key
+    if (!key) {
+      res.status(400).json({ error: 'Missing key' })
+    }
+    const entry = await createPerCapitaData(key)
+    if (entry) {
+      res.json(entry)
+    } else {
+      res.status(404).json({ error: 'No country or area matching key' })
+    }
+  } catch (e) {
+    res.status(500).json({ error: 'Could not complete request' })
   }
 })
 

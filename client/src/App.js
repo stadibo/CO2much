@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import useResizeAware from 'react-resize-aware'
-import { getCountryData, getKeys } from './services/emissionsService'
-import { createBaseEmissionsSeries } from './utils/timeseries'
+import { getCountryEmissionsData, getEmissionsKeys, getPerCapitaEmissionsData } from './services/emissionsService'
+import { createBaseEmissionsSeries, createPerCapitaEmissionsSeries } from './utils/timeseries'
 import EmissionsChart from './components/EmmissionsChart'
 import Header from './components/Header'
 import Nav from './components/Nav'
@@ -19,6 +19,13 @@ const App = () => {
     suggestionString: ""
   })
 
+  const [perCapitaChartState, setPerCapitaChartState] = useState({
+    series: null,
+    timerange: null,
+    selection: null,
+    highlight: null
+  })
+
   const [chartState, setChartState] = useState({
     series: null,
     timerange: null,
@@ -30,20 +37,18 @@ const App = () => {
     value: "/search"
   })
 
-  // const [windowState, setWindowState] = useState({
-  //   widht: 0
-  // })
-
-  const fetchCountryData = (key) => {
-    getCountryData(key).then(data => {
-      return createBaseEmissionsSeries(data)
-    }).then(series => {
-      setChartState({ ...chartState, series: series, timerange: series.range() })
-    })
+  const fetchCountryData = async (key) => {
+    const emissionData = await getCountryEmissionsData(key)
+    const perCapitaEmissionsData = await getPerCapitaEmissionsData(key)
+    const series = await createBaseEmissionsSeries(emissionData)
+    const perCapitaSeries = await createPerCapitaEmissionsSeries(perCapitaEmissionsData)
+    setChartState({ ...chartState, series: series, timerange: series.range() })
+    setPerCapitaChartState({ ...perCapitaChartState, series: perCapitaSeries, timerange: perCapitaSeries.range() })
   }
 
+
   useEffect(() => {
-    getKeys().then(data => {
+    getEmissionsKeys().then(data => {
       setSearchBoxState({ ...searchBoxState, keys: data })
     })
   }, [])
@@ -67,7 +72,7 @@ const App = () => {
             </Grid>
           )} />
 
-          <Route path="/search" render={() => (
+          <Route exact path="/search" render={() => (
             <Grid item xs={12}>
               <SearchAndGraph
                 searchBoxState={searchBoxState}
