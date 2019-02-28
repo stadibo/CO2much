@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
+import useResizeAware from 'react-resize-aware'
 import { getCountryData, getKeys } from './services/emissionsService'
 import { createBaseEmissionsSeries } from './utils/timeseries'
 import EmissionsChart from './components/EmmissionsChart'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import Nav from './components/Nav'
 import Search from './components/Search'
 import Grid from '@material-ui/core/Grid'
 
 const App = () => {
+  const [ResizeListener, sizes] = useResizeAware()
+
   const [searchBoxState, setSearchBoxState] = useState({
     input: '',
     keys: [],
@@ -27,6 +31,10 @@ const App = () => {
     value: 0
   })
 
+  // const [windowState, setWindowState] = useState({
+  //   widht: 0
+  // })
+
   const fetchCountryData = (key) => {
     getCountryData(key).then(data => {
       return createBaseEmissionsSeries(data)
@@ -43,31 +51,33 @@ const App = () => {
 
   return (
     <div className="App">
+      <ResizeListener />
       <Router>
-        <Grid container>
+        <Grid container spacing={24}>
           <Route exact path="/" render={() => <Redirect to="/search" />} />
 
           <Route path="/" render={() => (
-            <Grid item md={12}>
+            <Grid item xs={12}>
+              <Nav state={navState} setState={setNavState} />
+            </Grid>
+          )} />
+
+          <Route path="/" render={() => (
+            <Grid item xs={12}>
               <Header />
             </Grid>
           )} />
 
           <Route path="/" render={() => (
-            <Grid item md={12}>
+            <Grid item xs={12}>
               <SearchAndGraph
                 searchBoxState={searchBoxState}
                 setSearchBoxState={setSearchBoxState}
                 sendRequest={fetchCountryData}
                 chartState={chartState}
                 setChartState={setChartState}
+                sizes={sizes}
               />
-            </Grid>
-          )} />
-
-          <Route path="/" render={({ history }) => (
-            <Grid item xs={12}>
-              <Footer state={navState} setState={setNavState} />
             </Grid>
           )} />
         </Grid >
@@ -76,15 +86,14 @@ const App = () => {
   )
 }
 
-
-
 const SearchAndGraph = (props) => {
   const {
     searchBoxState,
     setSearchBoxState,
     sendRequest,
     chartState,
-    setChartState
+    setChartState,
+    sizes
   } = props
 
   return (
@@ -93,7 +102,7 @@ const SearchAndGraph = (props) => {
         <Search state={searchBoxState} setState={setSearchBoxState} sendRequest={sendRequest} />
       </Grid>
       <Grid item xs={12}>
-        <EmissionsChart state={chartState} setState={setChartState} />
+        <EmissionsChart state={chartState} setState={setChartState} sizes={sizes} />
       </Grid>
     </Grid >
   )

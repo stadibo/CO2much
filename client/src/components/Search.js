@@ -36,7 +36,7 @@ const Search = ({ state, setState, sendRequest }) => {
   }
 
   return (
-    <div style={{ paddingBottom: "10px", textAlign: "center" }}>
+    <div style={{ paddingBottom: "5px", textAlign: "center" }}>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={8}>
           <Grid item xs={12}>

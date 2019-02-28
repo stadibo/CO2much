@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core'
 const Header = () => {
 
   return (
-    <Typography variant="h2" style={{ fontSize: "6vw" }} gutterBottom>
+    <Typography variant="h2" style={{ fontSize: "6vw" }}>
       CO<sub>2</sub> emissions
     </Typography>
   )

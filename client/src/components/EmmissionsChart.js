@@ -14,7 +14,7 @@ import {
   styler
 } from 'react-timeseries-charts'
 
-const EmissionsChart = ({ state, setState }) => {
+const EmissionsChart = ({ state, setState, sizes }) => {
 
   const style = styler([
     { key: "CO2_emissions", color: "#333", selected: "#2CB1CF" }
@@ -42,14 +42,18 @@ const EmissionsChart = ({ state, setState }) => {
     name = state.series.name()
   }
 
-  return (
+  let height = ""
+  if (sizes) {
+    height = sizes.width >= 480 ? 400 : 225
+  }
 
+  return (
     <React.Fragment>
       {state.series ?
         <div className="root">
           <Grid container spacing={24}>
             <Grid item xs={12}>
-              <Paper style={{ padding: "10px" }}>
+              <Paper style={{ padding: "5px" }}>
                 <div>
                   <Typography variant="h6" gutterBottom>CO2 emissions {name}</Typography>
                   <Typography variant="subtitle1" style={{ paddingBottom: "10px" }}>
@@ -59,10 +63,11 @@ const EmissionsChart = ({ state, setState }) => {
                 <Resizable>
                   <ChartContainer
                     timeRange={state.timerange}
+                    enablePanZoom={true}
                     onTimeRangeChanged={handleTimeRangeChange}
                     onBackgroundClick={() => setState({ ...state, selection: null })}
                   >
-                    <ChartRow height="300">
+                    <ChartRow height={height}>
                       <YAxis
                         id="CO2"
                         label="CO2 emissions (kt)"
