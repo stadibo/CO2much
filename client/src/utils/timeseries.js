@@ -29,12 +29,12 @@ const createPerCapitaEmissionsSeries = (data) => {
     name: data.countryOrArea,
     columns: ["index", "CO2_perCapita"],
     points: data.co2PerCapita.map((entry) => {
-      console.log(Index.getYearlyIndexString(new Date(entry.year)))
+      // console.log(Index.getYearlyIndexString(new Date(entry.year)))
       let value = parseFloat(entry.perCapitaEmissionsT)
       if (!value) {
         value = 0
       }
-      console.log(value)
+      // console.log(value)
       return [
         Index.getYearlyIndexString(new Date(entry.year)),
         value

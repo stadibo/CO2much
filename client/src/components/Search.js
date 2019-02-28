@@ -56,7 +56,7 @@ const Search = ({ state, setState, sendRequest }) => {
             </div>
           </Grid>
           <Grid item xs={12}>
-            <div style={{ float: "left", padding: "0em 0em 1em 0em" }} >
+            <div style={{ float: "left", padding: "0em 0em 0em 0em" }} >
               <Button variant="outlined" type="submit" color='primary'>
                 Submit
              </Button>

@@ -14,7 +14,7 @@ import {
   styler
 } from 'react-timeseries-charts'
 
-const EmissionsChart = ({ state, setState, sizes }) => {
+const EmissionsPerCapitaChart = ({ state, setState, sizes }) => {
 
   const style = styler([
     { key: "CO2_perCapita", color: "#333", selected: "#2CB1CF" }
@@ -26,14 +26,14 @@ const EmissionsChart = ({ state, setState, sizes }) => {
 
   let infoValues = []
   if (state.highlight) {
-    const emissionsText = `${state.highlight.event.value(state.highlight.column)}`
-    infoValues = [{ label: "Emissions", value: emissionsText }]
+    const emissionsText = `${parseFloat(state.highlight.event.value(state.highlight.column)).toFixed(3)}`
+    infoValues = [{ label: "co2/capita", value: emissionsText }]
   }
 
   let selectedValue = null
   let selectedYear = null
   if (state.selection) {
-    selectedValue = `${state.selection.event.value(state.selection.column)} metric tonnes (co2/pers)`
+    selectedValue = `${parseFloat(state.selection.event.value(state.selection.column)).toFixed(3)} metric tonnes (co2/capita)`
     selectedYear = state.selection.event.index().toNiceString()
   }
 
@@ -46,6 +46,8 @@ const EmissionsChart = ({ state, setState, sizes }) => {
   if (sizes) {
     height = sizes.width >= 480 ? 400 : 225
   }
+
+  console.log(state.series)
 
   return (
     <React.Fragment>
@@ -70,23 +72,23 @@ const EmissionsChart = ({ state, setState, sizes }) => {
                     <ChartRow height={height}>
                       <YAxis
                         id="CO2"
-                        label="CO2 emissions (kt)"
+                        label="CO2/capita (t)"
                         min={0}
-                        max={state.series.max("CO2_emissions")}
+                        max={state.series.max("CO2_perCapita")}
                         width="55"
                       />
                       <Charts>
                         <BarChart
                           axis="CO2"
                           style={style}
-                          columns={["CO2_emissions"]}
+                          columns={["CO2_perCapita"]}
                           series={state.series}
                           highlighted={state.highlight}
                           onHighlightChange={highlight =>
                             setState({ ...state, highlight: highlight })
                           }
                           info={infoValues}
-                          infoWidth={135}
+                          infoWidth={120}
                           selected={state.selection}
                           onSelectionChange={selection =>
                             setState({ ...state, selection: selection })
@@ -106,4 +108,4 @@ const EmissionsChart = ({ state, setState, sizes }) => {
   )
 }
 
-export default EmissionsChart
+export default EmissionsPerCapitaChart

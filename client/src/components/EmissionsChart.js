@@ -26,7 +26,7 @@ const EmissionsChart = ({ state, setState, sizes }) => {
 
   let infoValues = []
   if (state.highlight) {
-    const emissionsText = `${state.highlight.event.value(state.highlight.column)}`
+    const emissionsText = `${parseFloat(state.highlight.event.value(state.highlight.column)).toFixed(3)}`
     infoValues = [{ label: "Emissions", value: emissionsText }]
   }
 
@@ -46,6 +46,8 @@ const EmissionsChart = ({ state, setState, sizes }) => {
   if (sizes) {
     height = sizes.width >= 480 ? 400 : 225
   }
+
+  console.log(state.series)
 
   return (
     <React.Fragment>
@@ -86,7 +88,7 @@ const EmissionsChart = ({ state, setState, sizes }) => {
                             setState({ ...state, highlight: highlight })
                           }
                           info={infoValues}
-                          infoWidth={135}
+                          infoWidth={150}
                           selected={state.selection}
                           onSelectionChange={selection =>
                             setState({ ...state, selection: selection })
