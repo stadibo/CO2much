@@ -2,6 +2,7 @@ const express = require('express')
 const http = require('http')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const path = require('path');
 const { startCronUpdater } = require('./utils/dataUpdate')
 
 const app = express()
@@ -19,10 +20,9 @@ const apiUrl = '/api'
 app.use(`${apiUrl}/population`, populationRouter)
 app.use(`${apiUrl}/emissions`, emissionsRouter)
 
-// Hello World!
-app.get('/api/', (req, res) => {
-  res.send('Hello from the API!')
-})
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
 
 const PORT = process.env.PORT || 4000
 
