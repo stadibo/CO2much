@@ -47,8 +47,6 @@ const EmissionsChart = ({ state, setState, sizes }) => {
     height = sizes.width >= 480 ? 400 : 225
   }
 
-  console.log(state.series)
-
   return (
     <React.Fragment>
       {state.series ?

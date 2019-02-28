@@ -4,7 +4,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { Link } from 'react-router-dom'
 
-const Footer = ({ state, setState }) => {
+const Nav = ({ state, setState }) => {
   const handleChange = (event, value) => {
     setState({ ...state, value: value })
   }
@@ -22,11 +22,11 @@ const Footer = ({ state, setState }) => {
         >
           <Tab label="Search" value="/search" component={Link} to="/search" />
           <Tab label="All countries" value="all" component={Link} to="/all" />
-          <Tab label="Comparison" value="comp" component={Link} to="/comp" />
+          <Tab label="Polluters" value="polluters" component={Link} to="/polluters" />
         </Tabs>
       </AppBar>
     </div>
   )
 }
 
-export default Footer
+export default Nav

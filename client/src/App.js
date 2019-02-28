@@ -94,6 +94,14 @@ const App = () => {
               />
             </Grid>
           )} />
+
+          <Route exact path="/all" render={() => (
+            <Grid item xs={12}>
+
+            </Grid>
+          )} />
+
+
         </Grid >
       </Router>
     </div >

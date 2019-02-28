@@ -18,7 +18,6 @@ const Search = ({ state, setState, sendRequest }) => {
       return str
     }, "")
 
-    console.log(newSuggestions)
     setState({
       ...state,
       input: input,
